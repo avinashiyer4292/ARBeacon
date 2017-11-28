@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "856929213159",
+    "firebase_url": "https://ar-beacon-d7c07.firebaseio.com",
+    "project_id": "ar-beacon-d7c07",
+    "storage_bucket": "ar-beacon-d7c07.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:856929213159:android:be9669f5b4964e17",
+        "android_client_info": {
+          "package_name": "com.avinash.arbeacon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "856929213159-jnr2c63q310c2gofcd7i1ksf32gt5lne.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfLmhTu9jcu8GEqpOuc2cs9qUOJQz-Ff0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

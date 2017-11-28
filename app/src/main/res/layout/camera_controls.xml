@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="15dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/imageRelativeLayout"
+        android:layout_marginTop="15dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/reitz_union_entrance"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:id="@+id/textRelativeLayout"
+        android:layout_marginTop="30dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:id="@+id/point_of_interest_title"
+            android:textColor="#fff"
+            android:layout_centerInParent="true"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:id="@+id/point_of_interest_content"
+            android:textColor="#fff"
+            android:layout_below="@id/point_of_interest_title"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/textRelativeLayout">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.33">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <android.support.design.widget.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    app:backgroundTint="@android:color/holo_blue_dark"
+                    app:elevation="3dp"
+                    app:fabSize="normal"
+                    android:id="@+id/point_of_interest_video"
+                    android:background="@drawable/ic_ondemand_video_black_24dp" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.33">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+                <android.support.design.widget.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    app:backgroundTint="@android:color/holo_green_dark"
+                    app:elevation="3dp"
+                    app:fabSize="normal"
+                    android:id="@+id/point_of_interest_audio"
+                    android:background="@drawable/ic_volume_down_black_24dp" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.33">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+                <android.support.design.widget.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    app:backgroundTint="@android:color/holo_orange_light"
+                    app:elevation="3dp"
+                    app:fabSize="normal"
+                    android:id="@+id/point_of_interest_language"
+                    android:background="@drawable/ic_event_note_black_24dp"/>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <!--<Button-->
+        <!--android:id="@+id/takepicture"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="33dp"-->
+        <!--android:text=" * Take Picture "-->
+        <!--android:layout_gravity="right"-->
+        <!--android:layout_margin="10px"-->
+        <!--/>-->
+</RelativeLayout>
