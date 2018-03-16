@@ -1,5 +1,8 @@
 package com.avinash.arbeacon.activities;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,7 +37,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.arsy.maps_library.MapRipple;
+import com.avinash.arbeacon.ARBeaconApplication;
 import com.avinash.arbeacon.R;
+import com.avinash.arbeacon.services.BeaconDetectionService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -86,6 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Location mLastLocation;
         Marker mCurrLocationMarker;
         LocationRequest mLocationRequest;
+        LatLng bearingLoc;
 
         private  static  final String TAG = "MapsActivity";
         boolean isGPS = false;
@@ -97,7 +103,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
         private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;
         private static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 11;
-
+        float bearing;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -211,7 +217,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         CircleOptions options = new CircleOptions();
         options.center(location);
         //Radius in meters
-        options.radius(400);
+        options.radius(50);
         options.fillColor(getResources()
                 .getColor(R.color.fill_color));
         options.strokeColor(getResources()
@@ -221,12 +227,50 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void getFixedParkingSpots(LatLng dest, int distance){
-        LatLng l = new LatLng(dest.latitude+0.016, dest.longitude);
+
+
+
+//        l = new LatLng(29.646547, -82.348001);
+//        marker = mMap.addMarker(new MarkerOptions().position(l).title("2").
+//                icon(BitmapDescriptorFactory.fromResource(R.drawable.beacon_marker)));
+//        marker.setTag("green");
+//        markerPoints.add(l);
+//
+//        l = new LatLng(29.649013, -82.343314);
+//        marker = mMap.addMarker(new MarkerOptions().position(l).title("2").
+//                icon(BitmapDescriptorFactory.fromResource(R.drawable.beacon_marker)));
+//        marker.setTag("green");
+//        markerPoints.add(l);
+//
+//
+//        l = new LatLng(29.649013, -82.343314);
+//        marker = mMap.addMarker(new MarkerOptions().position(l).title("2").
+//                icon(BitmapDescriptorFactory.fromResource(R.drawable.beacon_marker)));
+//        marker.setTag("green");
+//        markerPoints.add(l);
+
+
+//        l = new LatLng(dest.latitude+0.016, dest.longitude);
+//        marker = mMap.addMarker(new MarkerOptions().position(l).title("1").
+//                icon(BitmapDescriptorFactory.fromResource(R.drawable.beacon_marker)));
+//        marker.setTag("green");
+//        markerPoints.add(l);
+        //mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
+
+               LatLng l = new LatLng(29.648248, -82.343990);
+//        bearingLoc = l;
         Marker marker = mMap.addMarker(new MarkerOptions().position(l).title("1").
                 icon(BitmapDescriptorFactory.fromResource(R.drawable.beacon_marker)));
         marker.setTag("green");
         markerPoints.add(l);
+
+        l = new LatLng( 29.646564, -82.347352);
+        marker = mMap.addMarker(new MarkerOptions().position(l).title("1").
+                icon(BitmapDescriptorFactory.fromResource(R.drawable.beacon_marker)));
+        marker.setTag("green");
+        markerPoints.add(l);
         //mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
+
 
         l = new LatLng(dest.latitude-0.0102, dest.longitude-0.0015);
         marker = mMap.addMarker(new MarkerOptions().position(l).title("2").
@@ -333,10 +377,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onConnectionSuspended(int i) {
-
     }
-
-
 
     private void getLastLocation() {
         try {
@@ -354,6 +395,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onLocationChanged(Location location) {
         //Toast.makeText(MapsActivity.this, "on location changed called!", Toast.LENGTH_SHORT).show();
         mLastLocation = location;
+        Location SLoc  = new Location("source");
+        Location DLoc  = new Location("destination");
+        SLoc.setLatitude(location.getLatitude());
+        SLoc.setLongitude(location.getLongitude());
+
+        DLoc.setLatitude(29.645426);  //msl 29.648248, -82.343990
+        DLoc.setLongitude(-82.347753); //reitz 29.649013, -82.343314
+
+        //bookstrore 29.645426, -82.347753
+
+        bearing = SLoc.bearingTo(DLoc);
+        if(bearing<0)
+            bearing+=360;
+        Log.d("Location", String.valueOf(SLoc.bearingTo(DLoc)));
         if (mCurrLocationMarker != null) {
             mCurrLocationMarker.remove();
         }
@@ -369,18 +424,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //move map camera
         getFixedParkingSpots(latLng, 500);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(markerPoints.get(1)));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
 
-        animateMarker(mCurrLocationMarker, markerPoints.get(1), false);
+        List<LatLng> demoMarkerPoints = new ArrayList<>();
+        demoMarkerPoints.add(new LatLng(29.647771, -82.344528));
+        demoMarkerPoints.add(new LatLng(29.647608, -82.344749));
+        demoMarkerPoints.add(new LatLng(29.647070, -82.345722));
+        demoMarkerPoints.add(new LatLng(29.646331, -82.347739));
+
+
+
+
+//        animateMarker(mCurrLocationMarker, demoMarkerPoints.get(1), false, 6000);
+//        animateMarker(mCurrLocationMarker, demoMarkerPoints.get(2), false, 9000);
+        animateMarker(mCurrLocationMarker, demoMarkerPoints.get(3), false, 5000);
+
+        showNotification();
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 Intent i = new Intent(MapsActivity.this, CameraPreviewActivity2.class);
+                i.putExtra("bearing",bearing);
                 startActivity(i);
                 finish();
             }
-        },20000);
+        },10000);
+
+//        Intent i = new Intent(MapsActivity.this, BeaconDetectionService.class);
+//        MapsActivity.this.startService(i);
 
         //stop location updates
         if (mGoogleApiClient != null) {
@@ -388,14 +460,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
     public void animateMarker(final Marker marker, final LatLng toPosition,
-                              final boolean hideMarker) {
+                              final boolean hideMarker, int delay) {
         //Toast.makeText(MapsActivity.this, "Animating marker...", Toast.LENGTH_SHORT).show();
         final Handler handler = new Handler();
         final long start = SystemClock.uptimeMillis();
         Projection proj = mMap.getProjection();
         Point startPoint = proj.toScreenLocation(marker.getPosition());
         final LatLng startLatLng = proj.fromScreenLocation(startPoint);
-        final long duration = 2000;
+        final long duration = 100;
 
         final Interpolator interpolator = new LinearInterpolator();
 
@@ -422,7 +494,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 }
             }
-        },12000);
+        },delay);
 
     }
 
@@ -506,6 +578,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    public void showNotification(){
+        Intent notifyIntent = new Intent(this, CameraPreviewActivity2.class);
+        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivities(this, 0, new Intent[]{notifyIntent},
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification notification = new Notification.Builder(this)
+                .setSmallIcon(R.drawable.icon_24)
+                .setContentTitle("AR Beacons Campus Tours!")
+                .setContentText("You are near a point of interest!")
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+                .build();
+        notification.defaults |= Notification.DEFAULT_SOUND;
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, notification);
     }
 }
 
